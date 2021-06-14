@@ -5,10 +5,8 @@
 % *GONZALEZ, R. C.*, WOODS, R. E. Processamento de Imagens Digitais. 
 % Editora Edgard Blucher, ISBN São Paulo, 2000.
 % *Support MathWorks*, 2021. Disponível em: <https://www.mathworks.com/help/>.
-% Acesso em: 13 de junho. de 2021.
-% *Equalização de histograma*, 2021. Disponível em:
-% <https://pt.wikipedia.org/wiki/Equaliza%C3%A7%C3%A3o_de_histograma>
-% Acesso em: 13 de junho. de 2021.
+% Acesso em: 13 de junho. de 2021
+% *Equalização de histograma*
 
 close all; clear; clc;
 %% 1 Transformadas de intensidade (Definições)
@@ -31,8 +29,6 @@ title('Transformadas de gama');
 
 img_rgb = imread('descobrir_numero7.jpeg');
 img = rgb2gray(img_rgb);
-figure;
-imshow(img);
 
 %% 1.1.1 Negativo
 % No complemento de uma imagem em tons de cinza ou em cores, cada valor de 
@@ -60,11 +56,11 @@ title('Histograma - Negativa');
 
 %% 1.1.2 Potência de gama
 % *J = imadjust(I,[low_in high_in],[low_out high_out],gamma)*
-% Se gamma for menor que 1, imadjust pondera o mapeamento para valores de saída
+% Se gammafor menor que 1, imadjustpondera o mapeamento para valores de saída
 % mais altos (mais brilhantes).
-% Se gamma for maior que 1, imadjust pondera o mapeamento para valores de saída 
+% Se gammafor maior que 1, imadjustpondera o mapeamento para valores de saída 
 % mais baixos (mais escuros).
-% Se gammafor um vetor 1 por 3, imadjust aplica uma gama exclusiva a cada 
+% Se gammafor um vetor 1 por 3, imadjustaplica uma gama exclusiva a cada 
 % componente ou canal de cor.
 % Se você omitir o argumento, o gamma padrão será 1(mapeamento linear).
 
@@ -89,8 +85,9 @@ title('Histograma - Gama');
 % *J = imadjust(I,[low_in high_in],[low_out high_out])*
 % *J = imadjust(I,[low_in high_in],[low_out high_out],gamma)*
 % J = imadjust(I) mapeia os valores de intensidade em imagens em tons de
-% cinza I para novos valores em J. Esta operação aumenta o contraste da 
-% imagem de saída J.
+% cinza I para novos valores em J. Por padrão, imadjust satura o 1% 
+% inferior e o 1% superior de todos os valores de pixel. 
+% Esta operação aumenta o contraste da imagem de saída J.
 linear = imadjust(img, [0.3 0.9]);
 figure;
 subplot(2,2,1);
@@ -132,17 +129,18 @@ title('Histograma - Logaritmo');
 % e assim, particularmente em imagens, acentuando detalhes não visíveis anteriormente.
 
 %% 2.1 Histgramas e Equalização (Aplicação)
+% * Aplique em uma imagem comente os resultados.
 img_equalizada = histeq(logaritmo, 30);
 figure;
 subplot(2,2,1);
-imshow(logaritmo);
-title('Img Logaritmo (Cinza)');
+imshow(img);
+title('Img Original (Cinza)');
 subplot(2,2,2);
 imshow(img_equalizada);
 title('Img Equalizada');
 subplot(2,2,3);
-imhist(logaritmo);
-title('Histograma - Img Logaritmo');
+imhist(img);
+title('Histograma - Img Original');
 subplot(2,2,4);
 imhist(img_equalizada);
 title('Histograma - Equalizado');
@@ -154,14 +152,14 @@ contraste_aumentado = atenuacao_realce.^2 ;
 contraste_aumentado = uint8(contraste_aumentado*limiar);
 figure;
 subplot(2,2,1);
-imshow(img_equalizada);
-title('Img Equalizada (Cinza)');
+imshow(img);
+title('Img Original (Cinza)');
 subplot(2,2,2);
 imshow(contraste_aumentado);
 title('Img Contraste');
 subplot(2,2,3);
-imhist(img_equalizada);
-title('Histograma - Img Equalizada');
+imhist(img);
+title('Histograma - Img Original');
 subplot(2,2,4);
 imhist(contraste_aumentado);
 title('Histograma - Contraste');
@@ -208,7 +206,8 @@ title('Img Catedral CZS Equalizada');
 % de uma máscara movida ao logo de uma imagem.
 % *Convolução:* diz respeito a rotação em 180° da *correlação.*
 % *Filtro espacial:* como sugere o nome, diz respeito a manipulação de uma
-% imagem por meio de uma máscara de tamanho X que interagem com valores da vizinhança.
+% imagem por meio de um tendo como base um máscara com vizinhança de
+% tamanho X.
 
 %% 3.1 - Filtro espacial (Aplicação)
 % Utilice a função filtro (‘filtro espacial’) escolha uma mascara w1 e w2. 
@@ -218,7 +217,7 @@ title('Img Catedral CZS Equalizada');
 
 img_fe_original = imread('quebra_cabeca.jpeg'); 
 img_fe_original = rgb2gray(img_fe_original);
-w2 = 1/(11*11)*ones(11,11);
+w2 = 1/(11*11) *ones(11,11);
 w1 = 1/9*ones(3,3);
 img_fe_w1 = imfilter(img_fe_original, w1);
 img_fe_w2 = imfilter(img_fe_original, w2);
